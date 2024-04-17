@@ -1,7 +1,7 @@
 function time_string = scientific_time(time_in_seconds)
     % Powers of time and their corresponding units
     powers = [1e-12, 1e-9, 1e-6, 1e-3, 1, 60, 3600, 86400];
-    units = {'ps', 'ns', 'μs', 'ms', 's', 'min', 'hr', 'day'};
+    units = {'ps', 'ns', 'us', 'ms', 's', 'min', 'hr', 'day'};
 
     % Find the closest power of time
     [~, index] = min(abs(time_in_seconds - powers));

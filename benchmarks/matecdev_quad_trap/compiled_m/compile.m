@@ -1,0 +1,1 @@
+buildResults = compiler.build.standaloneApplication("m_main.m")

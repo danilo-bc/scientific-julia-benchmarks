@@ -1,5 +1,5 @@
 addpath '..\'
-n_iterations = 100;
+n_iterations = 10000;
 
 tic
 for i = 1:n_iterations
