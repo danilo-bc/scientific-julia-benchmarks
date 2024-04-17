@@ -2,10 +2,12 @@
 import math
 import numba as nb
 import time
+import timeit
 import sys
 sys.path.append("..")
 from common_benchmark import *
 
+n_iterations = 100
 ######## Pure Python
 def quad_trap(f,a,b,N):
     h = (b-a)/N
@@ -24,13 +26,9 @@ def g(p):
     return quad_trap(integrand, -1, 1, 10000) 
 
 print("Pure Python:")
-start_time = time.time()
 q1 = quad_trap(func,-1,1,10000)
-print(f"\tQuadrature -- {scientific_time(time.time() - start_time)} seconds")
-
-start_time = time.time()
-r = g(1)
-print(f"\tEval g(1) -- {scientific_time(time.time() - start_time)} seconds")
+print(f"\tQuadrature -- {scientific_time(timeit.Timer(lambda: quad_trap(func,-1,1,10000), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
+print(f"\tEval g(1) -- {scientific_time(timeit.Timer(lambda: g(1), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
 
 ######## with bad Numba JIT
 @nb.njit
@@ -54,16 +52,12 @@ def bjit_g(p):
 
 print("Bad Numba: ")
 # warm-up JIT
-q1 = bjit_quad_trap(bjit_func,-1,1,10000)
-start_time = time.time()
-q1 = bjit_quad_trap(bjit_func,-1,1,10000)
-print(f"\tQuadrature -- {scientific_time(time.time() - start_time)} seconds")
+bjit_quad_trap(bjit_func,-1,1,10000)
+print(f"\tQuadrature -- {scientific_time(timeit.Timer(lambda: bjit_quad_trap(bjit_func,-1,1,10000), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
 
 # warm-up JIT
-a = bjit_g(1)
-start_time = time.time()
-r = bjit_g(1)
-print(f"\tEval g(1) -- {scientific_time(time.time() - start_time)} seconds")
+bjit_g(1)
+print(f"\tEval g(1) -- {scientific_time(timeit.Timer(lambda: bjit_g(1), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
 
 
 ######## With proper Numba JIT
@@ -86,15 +80,11 @@ def jit_g(p):
 print("Good Numba: ")
 # warm-up JIT
 q1 = jit_quad_trap_p(jit_integrand,-1,1,10000, 1)
-start_time = time.time()
-q1 = jit_quad_trap_p(jit_integrand,-1,1,10000, 1)
-print(f"\tQuadrature -- {scientific_time(time.time() - start_time)} seconds")
+print(f"\tQuadrature -- {scientific_time(timeit.Timer(lambda: jit_quad_trap_p(jit_integrand,-1,1,10000, 1), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
 
 # warm-up JIT
-a = jit_g(1)
-start_time = time.time()
-r = jit_g(1)
-print(f"\tEval g(1) -- {scientific_time(time.time() - start_time)} seconds")
+jit_g(1)
+print(f"\tEval g(1) -- {scientific_time(timeit.Timer(lambda: jit_g(1), globals=globals()).timeit(number=n_iterations)/n_iterations)}")
 
 
 
