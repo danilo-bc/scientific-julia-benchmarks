@@ -19,7 +19,7 @@ if __name__ == '__main__':
     constellation = np.array([1+1j, 1-1j, -1+1j, -1-1j])
     print(f"Python:")
     for n in [10, 100, 1000, 10000, 100000]:
-        n_iterations = 100
+        n_iterations = 10000
         n_syms = n
         symb_seq = np.random.choice(constellation, n_syms)
         # Warm up JIT for internal functions
