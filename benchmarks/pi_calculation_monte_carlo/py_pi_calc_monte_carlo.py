@@ -29,7 +29,21 @@ def pi_calc_jit():
             j = j+1
     pi = j/n*4
     return pi
+
+from numpy import random as np_rand
+from numpy import square, sum, count_nonzero
+
+def pi_calc_numpy():
+    n = 10 ** 7
+    x_y=np_rand.rand(n,2)
+    x_y_p=sum(square(x_y), axis=1)
+    j= count_nonzero(x_y_p<=1)
+    pi = j / n * 4
+    return pi
+    
 # Warm up JIT before benchmarks
 pi_calc_jit()
 print("Python Numba:")
 print(timeit.Timer("pi_calc_jit()", globals=globals()).timeit(number=50)/50)
+print("Python Numpy:")
+print(timeit.Timer("pi_calc_numpy()", globals=globals()).timeit(number=50)/50)
