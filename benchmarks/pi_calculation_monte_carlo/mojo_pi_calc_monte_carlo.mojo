@@ -43,8 +43,8 @@ fn pi_calc_typed():
 def main():
     print("Mojo:")
     # var res0 = benchmark.run[pi_calc](max_runtime_secs=1).mean()
-    var res1 = benchmark.run[pi_calc_simple](max_runtime_secs=30).mean()
-    var res2 = benchmark.run[pi_calc_typed](max_runtime_secs=30).mean()
+    var res1 = benchmark.run[pi_calc_simple]().mean()
+    var res2 = benchmark.run[pi_calc_typed]().mean()
     # print(f"\tPython: {res0}")
-    print(f"\tSimple: {res1}")
-    print(f"\tTyped: {res2}")
+    print("\tSimple: ", res1)
+    print("\tTyped: ", res2)
